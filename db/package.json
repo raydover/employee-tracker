@@ -1,5 +1,5 @@
 {
-  "name": "employee-taker",
+  "name": "db",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,10 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "console.table": "^0.10.0",
-    "inquirer": "^8.2.4",
-    "mysql2": "^2.3.3"
-  }
+  "license": "ISC"
 }
