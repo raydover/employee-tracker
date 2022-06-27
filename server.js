@@ -57,29 +57,37 @@ const fn = {
       return init();
     });
   },
+  // { name: 'ADD a Department', value: 'addDepartment' },
+  // { name: 'ADD a Role', value: 'addRole' },
+  // { name: 'ADD a Employee', value: 'addEmployee' },
+  // { name: 'UPDATE an Employee Role', value: 'updateEmployeeRole' },
   addNewDepartment() {
     inquirer.prompt([
       {
         type: 'input',
         name: 'newDepartment',
-        message: ''
+        message: 'Enter a Department you wish to add:'
       }
     ]).then(({ newDepartment }) => {
-      db.query('INSERT INTO department (name) VALUES (${newDepartment});')
+      db.query('INSERT INTO department (name) VALUES (${newDepartment})');
+      return init();
+    });
+  },
+  addNewRole() {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'newRole',
+        message: 'Enter a Role you wish to add:'
+      }
+    ]).then(({ newRole }) => {
+      db.query('INSERT INTO role (name) VALUES (${newRole})');
       return init();
     });
   },
 
 
-
-// { name: 'ADD a Department', value: 'addDepartment' },
-// { name: 'ADD a Role', value: 'addRole' },
-// { name: 'ADD a Employee', value: 'addEmployee' },
-// { name: 'UPDATE an Employee Role', value: 'updateEmployeeRole' },
-
-
-
-exit() {
+  exit() {
     process.exit();
   },
 };
