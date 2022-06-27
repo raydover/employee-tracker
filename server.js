@@ -31,67 +31,7 @@ const db = mysql.createConnection(
     password: '',
     database: 'employeelist_db'
   }
-
 );
-
-// Funtion view by departments, roles, employees
-const fn = {
-  viewDepartments() {
-    db.query('SELECT * FROM department', function (err, results) {
-      if (err) return console.error(err);
-      console.table(results);
-      return init();
-    });
-  },
-  viewRoles() {
-    db.query('SELECT * FROM role', function (err, results) {
-      if (err) return console.error(err);
-      console.table(results);
-      return init();
-    });
-  },
-  viewEmployees() {
-    db.query('SELECT * FROM employee', function (err, results) {
-      if (err) return console.error(err);
-      console.table(results);
-      return init();
-    });
-  },
-  // { name: 'ADD a Department', value: 'addDepartment' },
-  // { name: 'ADD a Role', value: 'addRole' },
-  // { name: 'ADD a Employee', value: 'addEmployee' },
-  // { name: 'UPDATE an Employee Role', value: 'updateEmployeeRole' },
-  addNewDepartment() {
-    inquirer.prompt([
-      {
-        type: 'input',
-        name: 'newDepartment',
-        message: 'Enter a Department you wish to add:'
-      }
-    ]).then(({ newDepartment }) => {
-      db.query('INSERT INTO department (name) VALUES (${newDepartment})');
-      return init();
-    });
-  },
-  addNewRole() {
-    inquirer.prompt([
-      {
-        type: 'input',
-        name: 'newRole',
-        message: 'Enter a Role you wish to add:'
-      }
-    ]).then(({ newRole }) => {
-      db.query('INSERT INTO role (name) VALUES (${newRole})');
-      return init();
-    });
-  },
-
-
-  exit() {
-    process.exit();
-  },
-};
-
 
 // Funtion to initialze 
 const init = () => {
@@ -112,11 +52,94 @@ const init = () => {
     {
       type: 'rawlist',
       name: 'query',
-      message: "Select an option below:",
+      message: "Select from the options below:",
       choices,
     }
+  ]).then((answers) => fn[answers.query]());
+};
 
-  ]).then((answers) => fn(answers.query));
+// Function view departments, roles, employees
+const fn = {
+  viewDepartments() {
+    db.query('SELECT * FROM department', function (err, results) {
+      if (err) return console.error(err);
+      console.table(results);
+      return init();
+    });
+  },
+
+  viewRoles() {
+    db.query('SELECT * FROM role', function (err, results) {
+      if (err) return console.error(err);
+      console.table(results);
+      return init();
+    });
+  },
+
+  viewEmployees() {
+    db.query('SELECT * FROM employee', function (err, results) {
+      if (err) return console.error(err);
+      console.table(results);
+      return init();
+    });
+  },
+
+  addDepartment () {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'addDepartment',
+        message: 'Enter a Department you wish to add:'
+      }
+    ]).then(({ addDepartment }) => {
+      db.query('INSERT INTO department (name) VALUES (${addDepartment})');
+      return init();
+    });
+  },
+
+  addRole() {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'addRole',
+        message: 'Enter a Role you wish to add:'
+      }
+    ]).then(({ addRole }) => {
+      db.query('INSERT INTO role (name) VALUES (${addRole})');
+      return init();
+    });
+  },
+
+  addEmployee() {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'addEmployee',
+        message: 'Enter an Employee you wish to add:'
+      }
+    ]).then(({ addEmployee }) => {
+      db.query('INSERT INTO role (name) VALUES (${addEmployee})');
+      return init();
+    });
+  },
+
+  updateEmployee() {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'updateEmployee',
+        message: 'Enter an Employee you wish to add:'
+      }
+    ]).then(({ updateEmployee }) => {
+      db.query('INSERT INTO role (name) VALUES (${updateEmployee})');
+      return init();
+    });
+  },
+
+
+  exit() {
+    process.exit();
+  },
 };
 
 

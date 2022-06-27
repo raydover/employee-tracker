@@ -25,13 +25,23 @@ This assignement required students to create a content management systems (CMS) 
 
 ## Installation
 - Download through GitHub
-- Make sure inquirer is installed
+- Open Project Directory, then install the required dependencies
 
 ## Usage
-- 
-- 
-- 
-- 
+- install npm init -y to create a new .json file
+- npm install
+- npm install inquirer
+- npm install mysql
+- npm install console.table
+- mysql - u root
+- source db/schema.ql
+- source db/seed.ql
+- source db/query.ql
+- SHOW DATABASES;
+- exit
+- run node server.js
+- make sure server.js is connected to SQL before continuing
+- run through prompts as required
 
 ## Authors and Acknowledgements
 
