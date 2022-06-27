@@ -57,19 +57,29 @@ const fn = {
       return init();
     });
   },
+  addNewDepartment() {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'newDepartment',
+        message: ''
+      }
+    ]).then(({ newDepartment }) => {
+      db.query('INSERT INTO department (name) VALUES (${newDepartment});')
+      return init();
+    });
+  },
 
-  }
-  
 
 
-  // { name: 'ADD a Department', value: 'addDepartment' },
-  // { name: 'ADD a Role', value: 'addRole' },
-  // { name: 'ADD a Employee', value: 'addEmployee' },
-  // { name: 'UPDATE an Employee Role', value: 'updateEmployeeRole' },
+// { name: 'ADD a Department', value: 'addDepartment' },
+// { name: 'ADD a Role', value: 'addRole' },
+// { name: 'ADD a Employee', value: 'addEmployee' },
+// { name: 'UPDATE an Employee Role', value: 'updateEmployeeRole' },
 
 
 
-  exit() {
+exit() {
     process.exit();
   },
 };
@@ -89,7 +99,7 @@ const init = () => {
   ];
 
 
-// function 
+  // function 
   inquirer.prompt([
     {
       type: 'rawlist',
