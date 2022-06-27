@@ -1,10 +1,11 @@
 {
-  "name": "employee-taker",
+  "name": "db",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "## Table of Contents",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,14 @@
     "console.table": "^0.10.0",
     "inquirer": "^8.2.4",
     "mysql2": "^2.3.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raydover/employee-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/raydover/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/raydover/employee-tracker#readme"
 }
