@@ -16,12 +16,26 @@
 // WHEN I choose to update an employee role
 // THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 
+// Requires SHOWN IN CLASS
+// const mysql = require('mysql2');
+// const inquirer = require('inquirer');
+// require('console.table');
 
 // Import and require mysql2
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 require('console.table');
 
+// OPTION SHOWN IN CLASS
+// const db = mysql.createConnection(
+//   {
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'classlist_db'
+//   },
+//   console.log(`Connected to the classlist_db database.`)
+// );
 
 // Connect to database
 const db = mysql.createConnection(
@@ -31,35 +45,20 @@ const db = mysql.createConnection(
     password: '',
     database: 'employeelist_db'
   }
+  console.log(`Connected to the employeelist_db database.`)
 );
 
-// Funtion to initialze 
-const init = () => {
-  const choices = [
-    { name: 'VIEW all Departments', value: 'viewDepartments' },
-    { name: 'VIEW all Employees', value: 'viewEmployees' },
-    { name: 'VIEW all Roles', value: 'viewRoles' },
-    { name: 'ADD a Department', value: 'addDepartment' },
-    { name: 'ADD a Role', value: 'addRole' },
-    { name: 'ADD a Employee', value: 'addEmployee' },
-    { name: 'UPDATE an Employee Role', value: 'updateEmployeeRole' },
-    { name: 'Exit', value: 'exit' },
-  ];
-
-
-  // function 
-  inquirer.prompt([
-    {
-      type: 'rawlist',
-      name: 'query',
-      message: "Select from the options below:",
-      choices,
-    }
-  ]).then((answers) => fn[answers.query]());
-};
-
-// Function view departments, roles, employees
+// Funtion view by departments, roles, employees
 const fn = {
+
+  // OPTION SHOWN IN CLASS
+  // const showAllStudents = () => {
+  //   db.query('SELECT * FROM students', function (err, results) {
+  //     if (err) return console.error(err);
+  //     console.table(results);
+  //     return init();
+  //   });
+  // };
   viewDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
       if (err) return console.error(err);
@@ -67,7 +66,15 @@ const fn = {
       return init();
     });
   },
-
+  
+  // OPTION SHOWN IN CLASS
+  // const showEnrolledStudents = () => {
+  //   db.query('SELECT * FROM students WHERE enrolled = 1', function (err, results) {
+  //     if (err) return console.error(err);
+  //     console.table(results);
+  //     return init();
+  //   });
+  // };
   viewRoles() {
     db.query('SELECT * FROM role', function (err, results) {
       if (err) return console.error(err);
@@ -76,6 +83,14 @@ const fn = {
     });
   },
 
+  // OPTION SHOWN IN CLASS
+  // const showUnenrolledStudents = () => {
+  //   db.query('SELECT * FROM students WHERE enrolled = 0', function (err, results) {
+  //     if (err) return console.error(err);
+  //     console.table(results);
+  //     return init();
+  //   });
+  // };
   viewEmployees() {
     db.query('SELECT * FROM employee', function (err, results) {
       if (err) return console.error(err);
@@ -84,7 +99,7 @@ const fn = {
     });
   },
 
-  addDepartment () {
+  addDepartment() {
     inquirer.prompt([
       {
         type: 'input',
@@ -140,7 +155,109 @@ const fn = {
   exit() {
     process.exit();
   },
+}; 
+
+// OPTION SHOWN IN CLASS
+// const init = () => {
+//   inquirer.prompt([
+//     {
+//       type: 'rawlist',
+//       name: 'query',
+//       message: 'What option would you like to select?',
+//       choices: [
+//         'Show All Students',
+//         'Show Enrolled Students',
+//         'Show Unenrolled Students',
+//       ]
+//     }
+
+// Funtion to initialze
+const init = () => {
+  inquirer.prompt([
+    {
+      type: 'rawlist',
+      name: 'query',
+      message: "Select from the options below:",
+      choices, [
+        'View all Departments',
+        'View all Roles',
+        'View all Employess',
+        'Add a Department',
+        'Add a Role',
+        'Add a Employee',
+        'Update an Employee Role',
+        'Exit'
+      ]
+    }
+
+    // OPTION SHOWN IN CLASS
+    //   ]).then((answers) => {
+    //     switch (answers.query) {
+    //       case 'Show All Students': {
+    //         showAllStudents();
+    //         break;
+    //       }
+    //       case 'Show Enrolled Students': {
+    //         showEnrolledStudents();
+    //         break;
+    //       }
+    //       case 'Show Unenrolled Students': {
+    //         showUnenrolledStudents();
+    //         break;
+    //       }
+    //     }
+    //   });
+    // };
+
+    // init();
+  ]).then((answers) => {
+    switch (answers.query) {
+      case 'View all Departments': {
+        viewDepartments();
+        break;
+      }
+      case 'View all Roles': {
+        viewRoles();
+        break;
+      }
+      case 'View all Employees': {
+        viewEmployess();
+        break;
+      }
+      case 'Add a Department': {
+        addDepartment();
+        break;
+      }
+      case 'Add a Role': {
+        addRole();
+        break;
+      }
+      case 'Add a Employees': {
+        addEmployee();
+        break;
+      }
+      case 'Update an Employee Role': {
+        updateRole();
+        break;
+      }
+      default: {
+        process.exit();
+      }
+    }
+  });
 };
 
-
 init();
+
+
+
+
+
+
+
+
+
+
+
+
+
