@@ -110,8 +110,8 @@ const fn = {
     inquirer.prompt([
       {
         type: 'input',
-        name: 'addDepartment',
-        message: 'Enter a Department you wish to add:'
+        name: 'addDepartmentName',
+        message: 'Enter a Department Name:'
       }
     ]).then(({ addDepartment }) => {
       db.query('INSERT INTO department (name) VALUES (${addDepartment})');
@@ -134,8 +134,8 @@ const fn = {
       },
       {
         type: 'input',
-        name: 'addDepartmentId',
-        message: 'Add new Department Id:'
+        name: 'addRoleDepartmentId',
+        message: 'Add new Role Department Id:'
       },
     ]).then(({ addRole }) => {
       db.query('INSERT INTO role (name) VALUES (${addRole})');
@@ -143,20 +143,36 @@ const fn = {
     });
   },
 
+  // Prompt to add employee and what to input add first name, last name, role id, manager id
   addEmployee() {
     inquirer.prompt([
       {
         type: 'input',
-        name: 'addEmployee',
-        message: 'Enter an Employee you wish to add:'
+        name: 'addEmployeefirstName',
+        message: 'Enter Employee First Name:'
       }
+      {
+        type: 'input',
+        name: 'addEmployeelastName',
+        message: 'Enter Employee Last Name:'
+      },
+      {
+        type: 'input',
+        name: 'addEmployeeRoleId',
+        message: 'Enter Employee Role Id:'
+      },
+      {
+        type: 'input',
+        name: 'addEmployeeManagerId',
+        message: 'Enter Employee Manager Id:'
+      },
     ]).then(({ addEmployee }) => {
       db.query('INSERT INTO role (name) VALUES (${addEmployee})');
       return init();
     });
   },
 
-  updateEmployee() {
+  updateEmployeeRole() {
     inquirer.prompt([
       {
         type: 'input',
