@@ -44,7 +44,7 @@ const db = mysql.createConnection(
     user: 'root',
     password: '',
     database: 'employeelist_db'
-  }
+  },
   console.log(`Connected to the employeelist_db database.`)
 );
 
@@ -59,6 +59,8 @@ const fn = {
   //     return init();
   //   });
   // };
+
+  // View Deparments Table
   viewDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
       if (err) return console.error(err);
@@ -66,7 +68,7 @@ const fn = {
       return init();
     });
   },
-  
+
   // OPTION SHOWN IN CLASS
   // const showEnrolledStudents = () => {
   //   db.query('SELECT * FROM students WHERE enrolled = 1', function (err, results) {
@@ -75,6 +77,8 @@ const fn = {
   //     return init();
   //   });
   // };
+
+  // View Roles Table
   viewRoles() {
     db.query('SELECT * FROM role', function (err, results) {
       if (err) return console.error(err);
@@ -91,6 +95,8 @@ const fn = {
   //     return init();
   //   });
   // };
+
+  // View Employee Table
   viewEmployees() {
     db.query('SELECT * FROM employee', function (err, results) {
       if (err) return console.error(err);
@@ -99,6 +105,7 @@ const fn = {
     });
   },
 
+// Prompt to add department name
   addDepartment() {
     inquirer.prompt([
       {
@@ -112,13 +119,24 @@ const fn = {
     });
   },
 
+  // Prompt to add role and what to input add title, salary, dept id
   addRole() {
     inquirer.prompt([
       {
         type: 'input',
-        name: 'addRole',
-        message: 'Enter a Role you wish to add:'
-      }
+        name: 'addRoleTitle',
+        message: 'Add new Role Title:'
+      },
+      {
+        type: 'input',
+        name: 'addRoleSalary',
+        message: 'Add new Role Salary:'
+      },
+      {
+        type: 'input',
+        name: 'addDepartmentId',
+        message: 'Add new Department Id:'
+      },
     ]).then(({ addRole }) => {
       db.query('INSERT INTO role (name) VALUES (${addRole})');
       return init();
@@ -155,7 +173,7 @@ const fn = {
   exit() {
     process.exit();
   },
-}; 
+};
 
 // OPTION SHOWN IN CLASS
 // const init = () => {
@@ -178,7 +196,7 @@ const init = () => {
       type: 'rawlist',
       name: 'query',
       message: "Select from the options below:",
-      choices, [
+      choices: [
         'View all Departments',
         'View all Roles',
         'View all Employess',
@@ -186,9 +204,9 @@ const init = () => {
         'Add a Role',
         'Add a Employee',
         'Update an Employee Role',
-        'Exit'
-      ]
-    }
+        'Exit',
+      ],
+    },
 
     // OPTION SHOWN IN CLASS
     //   ]).then((answers) => {
@@ -241,6 +259,7 @@ const init = () => {
         break;
       }
       default: {
+        console.log('exiting');
         process.exit();
       }
     }
