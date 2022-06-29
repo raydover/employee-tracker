@@ -49,147 +49,143 @@ const db = mysql.createConnection(
 );
 
 // Funtion view by departments, roles, employees
-const fn = {
 
-  // OPTION SHOWN IN CLASS
-  // const showAllStudents = () => {
-  //   db.query('SELECT * FROM students', function (err, results) {
-  //     if (err) return console.error(err);
-  //     console.table(results);
-  //     return init();
-  //   });
-  // };
+// OPTION SHOWN IN CLASS
+// const showAllStudents = () => {
+//   db.query('SELECT * FROM students', function (err, results) {
+//     if (err) return console.error(err);
+//     console.table(results);
+//     return init();
+//   });
+// };
 
-  // View Deparments Table
-  viewDepartments() {
-    db.query('SELECT * FROM department', function (err, results) {
-      if (err) return console.error(err);
-      console.table(results);
-      return init();
-    });
-  },
+// View Deparments Table
+const viewDepartments = () => {
+  db.query('SELECT * FROM department', function (err, results) {
+    if (err) return console.error(err);
+    console.table(results);
+    return init();
+  });
+};
 
-  // OPTION SHOWN IN CLASS
-  // const showEnrolledStudents = () => {
-  //   db.query('SELECT * FROM students WHERE enrolled = 1', function (err, results) {
-  //     if (err) return console.error(err);
-  //     console.table(results);
-  //     return init();
-  //   });
-  // };
+// OPTION SHOWN IN CLASS
+// const showEnrolledStudents = () => {
+//   db.query('SELECT * FROM students WHERE enrolled = 1', function (err, results) {
+//     if (err) return console.error(err);
+//     console.table(results);
+//     return init();
+//   });
+// };
 
-  // View Roles Table
-  viewRoles() {
-    db.query('SELECT * FROM role', function (err, results) {
-      if (err) return console.error(err);
-      console.table(results);
-      return init();
-    });
-  },
+// View Roles Table
+const viewRoles = () => {
+  db.query('SELECT * FROM role', function (err, results) {
+    if (err) return console.error(err);
+    console.table(results);
+    return init();
+  });
+};
 
-  // OPTION SHOWN IN CLASS
-  // const showUnenrolledStudents = () => {
-  //   db.query('SELECT * FROM students WHERE enrolled = 0', function (err, results) {
-  //     if (err) return console.error(err);
-  //     console.table(results);
-  //     return init();
-  //   });
-  // };
+// OPTION SHOWN IN CLASS
+// const showUnenrolledStudents = () => {
+//   db.query('SELECT * FROM students WHERE enrolled = 0', function (err, results) {
+//     if (err) return console.error(err);
+//     console.table(results);
+//     return init();
+//   });
+// };
 
-  // View Employee Table
-  viewEmployees() {
-    db.query('SELECT * FROM employee', function (err, results) {
-      if (err) return console.error(err);
-      console.table(results);
-      return init();
-    });
-  },
+// View Employee Table
+const viewEmployees = () => {
+  db.query('SELECT * FROM employee', function (err, results) {
+    if (err) return console.error(err);
+    console.table(results);
+    return init();
+  });
+};
 
 // Prompt to add department name
-  addDepartment() {
-    inquirer.prompt([
-      {
-        type: 'input',
-        name: 'addDepartmentName',
-        message: 'Enter a Department Name:'
-      }
-    ]).then(({ addDepartment }) => {
-      db.query('INSERT INTO department (name) VALUES (${addDepartment})');
-      return init();
-    });
-  },
-
-  // Prompt to add role and what to input add title, salary, dept id
-  addRole() {
-    inquirer.prompt([
-      {
-        type: 'input',
-        name: 'addRoleTitle',
-        message: 'Add new Role Title:'
-      },
-      {
-        type: 'input',
-        name: 'addRoleSalary',
-        message: 'Add new Role Salary:'
-      },
-      {
-        type: 'input',
-        name: 'addRoleDepartmentId',
-        message: 'Add new Role Department Id:'
-      },
-    ]).then(({ addRole }) => {
-      db.query('INSERT INTO role (name) VALUES (${addRole})');
-      return init();
-    });
-  },
-
-  // Prompt to add employee and what to input add first name, last name, role id, manager id
-  addEmployee() {
-    inquirer.prompt([
-      {
-        type: 'input',
-        name: 'addEmployeefirstName',
-        message: 'Enter Employee First Name:'
-      }
-      {
-        type: 'input',
-        name: 'addEmployeelastName',
-        message: 'Enter Employee Last Name:'
-      },
-      {
-        type: 'input',
-        name: 'addEmployeeRoleId',
-        message: 'Enter Employee Role Id:'
-      },
-      {
-        type: 'input',
-        name: 'addEmployeeManagerId',
-        message: 'Enter Employee Manager Id:'
-      },
-    ]).then(({ addEmployee }) => {
-      db.query('INSERT INTO role (name) VALUES (${addEmployee})');
-      return init();
-    });
-  },
-
-  updateEmployeeRole() {
-    inquirer.prompt([
-      {
-        type: 'input',
-        name: 'updateEmployee',
-        message: 'Enter an Employee you wish to add:'
-      }
-    ]).then(({ updateEmployee }) => {
-      db.query('INSERT INTO role (name) VALUES (${updateEmployee})');
-      return init();
-    });
-  },
-
-
-  exit() {
-    process.exit();
-  },
+const addDepartment = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'addDepartmentName',
+      message: 'Add a new Department Name:'
+    }
+  ]).then((answers) => {
+    db.query('INSERT INTO department SET ?');
+    return init();
+  });
 };
+
+// Prompt to add role and what to input add title, salary, dept id
+const addRole = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'addRoleTitle',
+      message: 'Add new Role Title:'
+    },
+    {
+      type: 'input',
+      name: 'addRoleSalary',
+      message: 'Add new Role Salary:'
+    },
+    {
+      type: 'input',
+      name: 'addRoleDepartmentId',
+      message: 'Add new Role Department Id:'
+    },
+  ]).then((answers) => {
+    db.query('INSERT INTO role SET ?');
+    return init();
+  });
+}
+
+// Prompt to add employee and what to input add first name, last name, role id, manager id
+const addEmployee = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'addEmployeefirstName',
+      message: 'Add an Employee First Name:'
+    },
+    {
+      type: 'input',
+      name: 'addEmployeelastName',
+      message: 'Add an Employee Last Name:'
+    },
+    {
+      type: 'input',
+      name: 'addEmployeeRoleId',
+      message: 'Add an Employee Role Id:'
+    },
+    {
+      type: 'input',
+      name: 'addEmployeeManagerId',
+      message: 'Add an Employee Manager Id:'
+    },
+  ]).then((answers) => {
+    db.query('INSERT INTO employee SET ?');
+    return init();
+  });
+};
+
+
+// Prompt to update employee role and what to input add title, salary, dept id
+const updateEmployeeRole = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'updateEmployeeRole',
+      message: 'Enter an Employee Role you wish to Update:'
+    }
+  ]).then((answers) => {
+    db.query('UPDATE employee SET ? WHERE ?');
+    return init();
+  });
+};
+
 
 // OPTION SHOWN IN CLASS
 // const init = () => {
@@ -205,6 +201,7 @@ const fn = {
 //       ]
 //     }
 
+
 // Funtion to initialze
 const init = () => {
   inquirer.prompt([
@@ -218,11 +215,12 @@ const init = () => {
         'View all Employess',
         'Add a Department',
         'Add a Role',
-        'Add a Employee',
+        'Add an Employee',
         'Update an Employee Role',
         'Exit',
       ],
     },
+
 
     // OPTION SHOWN IN CLASS
     //   ]).then((answers) => {
@@ -243,7 +241,10 @@ const init = () => {
     //   });
     // };
 
+
     // init();
+
+
   ]).then((answers) => {
     switch (answers.query) {
       case 'View all Departments': {
@@ -255,7 +256,7 @@ const init = () => {
         break;
       }
       case 'View all Employees': {
-        viewEmployess();
+        viewEmployees();
         break;
       }
       case 'Add a Department': {
@@ -266,12 +267,12 @@ const init = () => {
         addRole();
         break;
       }
-      case 'Add a Employees': {
+      case 'Add an Employees': {
         addEmployee();
         break;
       }
       case 'Update an Employee Role': {
-        updateRole();
+        updateEmployeeRole();
         break;
       }
       default: {
@@ -281,6 +282,7 @@ const init = () => {
     }
   });
 };
+
 
 init();
 
