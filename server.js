@@ -64,7 +64,7 @@ const viewDepartments = () => {
   db.query('SELECT * FROM department', function (err, results) {
     if (err) return console.error(err);
     console.table(results);
-    return init();
+    init();
   });
 };
 
@@ -82,7 +82,7 @@ const viewRoles = () => {
   db.query('SELECT * FROM role', function (err, results) {
     if (err) return console.error(err);
     console.table(results);
-    return init();
+    init();
   });
 };
 
@@ -100,7 +100,7 @@ const viewEmployees = () => {
   db.query('SELECT * FROM employee', function (err, results) {
     if (err) return console.error(err);
     console.table(results);
-    return init();
+    init();
   });
 };
 
@@ -114,7 +114,7 @@ const addDepartment = () => {
     }
   ]).then((answers) => {
     db.query('INSERT INTO department SET ?');
-    return init();
+    init();
   });
 };
 
@@ -123,22 +123,25 @@ const addRole = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'addRoleTitle',
+      name: 'title',
       message: 'Add new Role Title:'
     },
     {
       type: 'input',
-      name: 'addRoleSalary',
+      name: 'salary',
       message: 'Add new Role Salary:'
     },
     {
-      type: 'input',
-      name: 'addRoleDepartmentId',
-      message: 'Add new Role Department Id:'
+      type: 'rawlist',
+      name: 'department_id',
+      message: 'Choose a new Role Department Id:',
+      choices:[
+
+      ]
     },
   ]).then((answers) => {
     db.query('INSERT INTO role SET ?');
-    return init();
+    init();
   });
 }
 
@@ -147,27 +150,33 @@ const addEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'addEmployeefirstName',
+      name: 'first_name',
       message: 'Add an Employee First Name:'
     },
     {
       type: 'input',
-      name: 'addEmployeelastName',
+      name: 'last_name',
       message: 'Add an Employee Last Name:'
     },
     {
-      type: 'input',
-      name: 'addEmployeeRoleId',
-      message: 'Add an Employee Role Id:'
+      type: 'rawlist',
+      name: 'role_id',
+      message: 'Choose an Employee Role Id:',
+      choices: [
+
+      ]
     },
     {
-      type: 'input',
-      name: 'addEmployeeManagerId',
-      message: 'Add an Employee Manager Id:'
+      type: 'rawlist',
+      name: 'manager_id',
+      message: 'Choose from Employee Manager Id:',
+      choices: [
+
+      ]
     },
   ]).then((answers) => {
     db.query('INSERT INTO employee SET ?');
-    return init();
+    init();
   });
 };
 
@@ -176,14 +185,29 @@ const addEmployee = () => {
 const updateEmployeeRole = () => {
   inquirer.prompt([
     {
-      type: 'input',
+      type: 'rawlist',
       name: 'updateEmployeeRole',
-      message: 'Enter an Employee Role you wish to Update:'
+      message: 'Choose an Employee Role you wish to Update:',
+      choices: [
+
+      ]
     }
   ]).then((answers) => {
     db.query('UPDATE employee SET ? WHERE ?');
-    return init();
+    init();
   });
+};
+
+// Prompt to update employee role and what to input add title, salary, dept id
+const exit = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'exit',
+      message: 'Bye, Bye, Bye!'
+    }
+  ])
+  process.exit();
 };
 
 
@@ -275,10 +299,14 @@ const init = () => {
         updateEmployeeRole();
         break;
       }
-      default: {
-        console.log('exiting');
-        process.exit();
+      case 'Exit': {
+        exit();
+        break;
       }
+      // default: {
+      //   console.log('exiting');
+      //   process.exit();
+      // }
     }
   });
 };
