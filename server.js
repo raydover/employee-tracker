@@ -1,63 +1,17 @@
-// GIVEN a command-line application that accepts user input
-// WHEN I start the application
-// THEN I am presented with the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
-// WHEN I choose to view all departments
-// THEN I am presented with a formatted table showing department names and department ids
-// WHEN I choose to view all roles
-// THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
-// WHEN I choose to view all employees
-// THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-// WHEN I choose to add a department
-// THEN I am prompted to enter the name of the department and that department is added to the database
-// WHEN I choose to add a role
-// THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
-// WHEN I choose to add an employee
-// THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-// WHEN I choose to update an employee role
-// THEN I am prompted to select an employee to update and their new role and this information is updated in the database
-
-// Requires SHOWN IN CLASS
-// const mysql = require('mysql2');
-// const inquirer = require('inquirer');
-// require('console.table');
-
 // Import and require mysql2
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 require('console.table');
 
-// OPTION SHOWN IN CLASS
-// const db = mysql.createConnection(
-//   {
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'classlist_db'
-//   },
-//   console.log(`Connected to the classlist_db database.`)
-// );
-
-// Connect to database
 const db = mysql.createConnection(
   {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'employeelist_db'
+    database: 'employee_db'
   },
-  console.log(`Connected to the employeelist_db database.`)
+  console.log(`Connected to the employee_db database.`)
 );
-
-// Funtion view by departments, roles, employees
-
-// OPTION SHOWN IN CLASS
-// const showAllStudents = () => {
-//   db.query('SELECT * FROM students', function (err, results) {
-//     if (err) return console.error(err);
-//     console.table(results);
-//     return init();
-//   });
-// };
 
 // View Deparments Table
 const viewDepartments = () => {
@@ -68,36 +22,18 @@ const viewDepartments = () => {
   });
 };
 
-// OPTION SHOWN IN CLASS
-// const showEnrolledStudents = () => {
-//   db.query('SELECT * FROM students WHERE enrolled = 1', function (err, results) {
-//     if (err) return console.error(err);
-//     console.table(results);
-//     return init();
-//   });
-// };
-
 // View Roles Table
 const viewRoles = () => {
-  db.query('SELECT * FROM role', function (err, results) {
+  db.query('SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department ON role.department_id = department.id', function (err, results) {
     if (err) return console.error(err);
     console.table(results);
     init();
   });
 };
 
-// OPTION SHOWN IN CLASS
-// const showUnenrolledStudents = () => {
-//   db.query('SELECT * FROM students WHERE enrolled = 0', function (err, results) {
-//     if (err) return console.error(err);
-//     console.table(results);
-//     return init();
-//   });
-// };
-
 // View Employee Table
 const viewEmployees = () => {
-  db.query('SELECT * FROM employee', function (err, results) {
+  db.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role  ON employee.role_id = role.id LEFT JOIN department  ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id', function (err, results) {
     if (err) return console.error(err);
     console.table(results);
     init();
@@ -109,11 +45,14 @@ const addDepartment = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'addDepartmentName',
+      name: 'departmentName',
       message: 'Add a new Department Name:'
-    }
+    },
   ]).then((answers) => {
-    db.query('INSERT INTO department SET ?');
+    db.query('INSERT INTO department SET ?',
+      {
+        name: answers.departmentName
+      })
     init();
   });
 };
@@ -123,77 +62,78 @@ const addRole = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'title',
+      name: 'roleTitle',
       message: 'Add new Role Title:'
     },
     {
       type: 'input',
-      name: 'salary',
+      name: 'roleSalary',
       message: 'Add new Role Salary:'
     },
     {
-      type: 'rawlist',
-      name: 'department_id',
-      message: 'Choose a new Role Department Id:',
-      choices:[
-
-      ]
-    },
+      type: 'input',
+      name: 'roleDepartmentId',
+      message: 'Add a new Role Department Id:'
+    }
   ]).then((answers) => {
-    db.query('INSERT INTO role SET ?');
+    db.query('INSERT INTO role SET ?',
+      {
+        title: answers.roleTitle,
+        salary: answers.roleSalary,
+        department_id: answers.roleDepartmentId
+      })
     init();
   });
-}
+};
 
 // Prompt to add employee and what to input add first name, last name, role id, manager id
 const addEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'first_name',
-      message: 'Add an Employee First Name:'
+      name: 'empFirstName',
+      message: 'Add Employee First Name:'
     },
     {
       type: 'input',
-      name: 'last_name',
-      message: 'Add an Employee Last Name:'
+      name: 'emplastName',
+      message: 'Add Employee Last Name:'
     },
     {
-      type: 'rawlist',
-      name: 'role_id',
-      message: 'Choose an Employee Role Id:',
-      choices: [
-
-      ]
+      type: 'input',
+      name: 'empRoleId',
+      message: 'Add Employee Role Id:'
     },
     {
-      type: 'rawlist',
-      name: 'manager_id',
-      message: 'Choose from Employee Manager Id:',
-      choices: [
-
-      ]
-    },
+      type: 'input',
+      name: 'empManagerId',
+      message: 'Add an Employee Manager Id:'
+    }
   ]).then((answers) => {
-    db.query('INSERT INTO employee SET ?');
+    db.query('INSERT INTO employee SET ?',
+      {
+        first_name: answers.empFirstName,
+        last_name: answers.emplastName,
+        role_id: answers.empRoleId,
+        manager_id: answers.empManagerId
+      })
     init();
   });
 };
 
-
-// Prompt to update employee role and what to input add title, salary, dept id
+// Prompt to update employee role and what to input update employee
 const updateEmployeeRole = () => {
   inquirer.prompt([
     {
-      type: 'rawlist',
-      name: 'updateEmployeeRole',
-      message: 'Choose an Employee Role you wish to Update:',
-      choices: [
-
-      ]
+      type: 'input',
+      name: 'updateEmpRole',
+      message: 'Enter Employee Role you wish to Update:'
     }
   ]).then((answers) => {
-    db.query('UPDATE employee SET ? WHERE ?');
+    db.query('UPDATE employee SET ? WHERE ?',
+    {
+      role_id: answers.updateEmpRole
+    })
     init();
   });
 };
@@ -210,22 +150,6 @@ const exit = () => {
   process.exit();
 };
 
-
-// OPTION SHOWN IN CLASS
-// const init = () => {
-//   inquirer.prompt([
-//     {
-//       type: 'rawlist',
-//       name: 'query',
-//       message: 'What option would you like to select?',
-//       choices: [
-//         'Show All Students',
-//         'Show Enrolled Students',
-//         'Show Unenrolled Students',
-//       ]
-//     }
-
-
 // Funtion to initialze
 const init = () => {
   inquirer.prompt([
@@ -236,38 +160,14 @@ const init = () => {
       choices: [
         'View all Departments',
         'View all Roles',
-        'View all Employess',
+        'View all Employees',
         'Add a Department',
         'Add a Role',
         'Add an Employee',
         'Update an Employee Role',
-        'Exit',
+        'Exit'
       ],
-    },
-
-
-    // OPTION SHOWN IN CLASS
-    //   ]).then((answers) => {
-    //     switch (answers.query) {
-    //       case 'Show All Students': {
-    //         showAllStudents();
-    //         break;
-    //       }
-    //       case 'Show Enrolled Students': {
-    //         showEnrolledStudents();
-    //         break;
-    //       }
-    //       case 'Show Unenrolled Students': {
-    //         showUnenrolledStudents();
-    //         break;
-    //       }
-    //     }
-    //   });
-    // };
-
-
-    // init();
-
+    }
 
   ]).then((answers) => {
     switch (answers.query) {
@@ -291,7 +191,7 @@ const init = () => {
         addRole();
         break;
       }
-      case 'Add an Employees': {
+      case 'Add an Employee': {
         addEmployee();
         break;
       }
@@ -300,17 +200,13 @@ const init = () => {
         break;
       }
       case 'Exit': {
+        console.log('Exiting')
         exit();
         break;
       }
-      // default: {
-      //   console.log('exiting');
-      //   process.exit();
-      // }
     }
   });
 };
-
 
 init();
 

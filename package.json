@@ -1,7 +1,7 @@
 {
-  "name": "db",
+  "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "## Table of Contents",
+  "description": "employee-tracker",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
