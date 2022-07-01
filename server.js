@@ -136,10 +136,10 @@ const updateEmployeeRole = () => {
     }
   ]).then((answers) => {
     db.query('UPDATE employee SET ? WHERE ?',
-    {
-      id: answers.updateEmployee,
-      role_id: answers.updateEmpRole
-    })
+      {
+        id: answers.updateEmployee,
+        role_id: answers.updateEmpRole
+      })
     init();
   });
 };
