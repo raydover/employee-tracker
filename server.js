@@ -121,17 +121,23 @@ const addEmployee = () => {
   });
 };
 
-// Prompt to update employee role and what to input update employee
+// Prompt to update employee role and what to input update employee role
 const updateEmployeeRole = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'updateEmpRole',
-      message: 'Enter Employee Role you wish to Update:'
+      name: 'updateEmployee',
+      message: 'Enter Employee ID to Update the Role:'
+    },
+    {
+      type: 'input',
+      name: 'updateEmployeeRole',
+      message: 'Enter to Update the Employee Role:'
     }
   ]).then((answers) => {
     db.query('UPDATE employee SET ? WHERE ?',
     {
+      id: answers.updateEmployee,
       role_id: answers.updateEmpRole
     })
     init();
