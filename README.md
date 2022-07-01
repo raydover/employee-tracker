@@ -15,7 +15,9 @@ This assignement required students to create a content management systems (CMS) 
 
 ## Visuals
 
-- [Video Link](INSERT LINK TO VIDEO)
+- [Employee Tracker Video Link](INSERT LINK TO VIDEO)
+
+- [Employee Tacker Screehshot](./assets/employee-tracker.png)
 
 ## Resources
 
@@ -24,7 +26,7 @@ This assignement required students to create a content management systems (CMS) 
 - [Repository](https://github.com/raydover/employee-tracker)
 
 ## Installation
-- Download through GitHub
+- Download through GitHub Repository
 - Open Project Directory, then install the required dependencies
 
 ## Usage
@@ -36,10 +38,8 @@ This assignement required students to create a content management systems (CMS) 
 - mysql - u root
 - source db/schema.ql
 - source db/seed.ql
-- source db/query.ql
-- SHOW DATABASES;
 - exit
-- run node server.js
+- nodemon
 - make sure server.js is connected to SQL before continuing
 - run through prompts as required
 
