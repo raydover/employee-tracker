@@ -15,7 +15,7 @@ This assignement required students to create a content management systems (CMS) 
 
 ## Visuals
 
-- [Employee Tracker Video Link](INSERT LINK TO VIDEO)
+- [Employee Tracker Video Link](https://drive.google.com/file/d/1_WLOTbZNoOLWt5iYw5Dr8VrGamGxinXk/view)
 
 - [Employee Tacker Screehshot](./assets/employee-tracker.png)
 
